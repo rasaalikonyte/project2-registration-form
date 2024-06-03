@@ -50,9 +50,16 @@ describe("Registration form functionality", () => {
     cy.get('[name="password"]').type("1234567");
 
     cy.get('[name="dob"]').type("1994-01-01");
-    // submits
 
+    // submits
     cy.contains("button", /submit/i).click();
+
+    // Submitted Information:
+    // Username: rasa
+    // Email: rasa@gmail.com
+    // Date of Birth: 1990-01-01
+
+    Age: 34;
 
     //next test: check if returns all filled data
     // cy.contains(
