@@ -124,7 +124,8 @@ const RegistrationForm = () => {
             <strong>Date of Birth:</strong> {formData.dob}
           </p>
           <p>
-            <strong>Age:</strong> {age}
+            <strong>Age: </strong>
+            <span data-cy="age">{age}</span>
           </p>
         </div>
       )}
