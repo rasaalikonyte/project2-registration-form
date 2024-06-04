@@ -22,11 +22,13 @@ describe("Registration-form visability", () => {
     element.should("be.visible");
   });
 });
-describe("Empty registration form validation", () => {
-  it("should display validation errors if submitted empty fields", () => {
-    // Customer goes to the page
-    cy.visit("http://localhost:5173/");
 
+describe("Registration form validation", () => {
+  beforeEach(() => {
+    cy.visit("http://localhost:5173");
+  });
+
+  it("should display validation errors if submitted empty fields", () => {
     // Clicks submit button
     cy.contains("button", /submit/i).click();
 
@@ -36,6 +38,27 @@ describe("Empty registration form validation", () => {
     cy.contains("Password is required").should("be.visible");
     cy.contains("Date of Birth is required").should("be.visible");
   });
+
+  it("should display validation error for invalid email", () => {
+    cy.get('input[name="email"]').type("invalid-email");
+    cy.contains("button", /submit/i).click();
+
+    cy.contains("Email is invalid").should("be.visible");
+  });
+
+  it("should display validation error for short password", () => {
+    cy.get('input[name="password"]').type("123");
+    cy.contains("button", /submit/i).click();
+
+    cy.contains("Password must be at least 6 characters").should("be.visible");
+  });
+
+  // it("should display validation error for invalid date of birth", () => {
+  //   cy.get('input[name="dob"]').type("invalid-date");
+  //   cy.contains("button", /submit/i).click();
+
+  //   cy.contains("Date of Birth is invalid").should("be.visible");
+  // });
 });
 
 describe("Registration form functionality", () => {
@@ -44,26 +67,68 @@ describe("Registration form functionality", () => {
     cy.visit("http://localhost:5173/");
     // Fill the form
     cy.get('[name="username"]').type("rasa");
-
     cy.get('[name="email"]').type("rasa@gmail.com");
-
-    cy.get('[name="password"]').type("1234567");
-
+    cy.get('[name="password"]').type("1234567", { sensitive: true });
     cy.get('[name="dob"]').type("1994-01-01");
-
     // submits
     cy.contains("button", /submit/i).click();
+  });
 
-    // Submitted Information:
-    // Username: rasa
-    // Email: rasa@gmail.com
-    // Date of Birth: 1990-01-01
+  it("Customer is able to see the data after submitting the filled registration form", () => {
+    // Customer goes to the page
+    cy.visit("http://localhost:5173/");
+    // Fill the form
+    cy.get('[name="username"]').type("rasa");
+    cy.get('[name="email"]').type("rasa@gmail.com");
+    cy.get('[name="password"]').type("1234567");
+    cy.get('[name="dob"]').type("1994-01-01");
+    // submits
+    cy.contains("button", /submit/i).click();
+    // submitted data
+    cy.contains("h3", "Submitted Information:").should("be.visible");
+    cy.contains("Username: rasa").should("be.visible");
+    cy.contains("Email: rasa@gmail.com").should("be.visible");
+    cy.contains("Date of Birth: 1994-01-01").should("be.visible");
+    cy.contains("Age: 30").should("be.visible"); // Assuming current year is 2024
+  });
+});
 
-    Age: 34;
+// Is age calculated correctly - function to calculate age
 
-    //next test: check if returns all filled data
-    // cy.contains(
-    //   "Thank you for your message! We will get back to you soon."
-    // ).should("be.visible");
+describe("Is age calculated correctly", () => {
+  beforeEach(() => {
+    cy.visit("http://localhost:5173");
+  });
+
+  it("User fills the form and submitts the data", () => {
+    cy.get('[name="username"]').type("rasa");
+    cy.get('[name="email"]').type("rasa@gmail.com");
+    cy.get('[name="password"]').type("1234567");
+    cy.get('[name="dob"]').type("1994-01-01");
+    // submits
+    cy.contains("button", /submit/i).click();
+  });
+
+  it("should correctly calculate age based on date of birth", () => {
+    function calculateAge(dob) {
+      const birthDate = new Date(dob);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < birthDate.getDate())
+      ) {
+        age--;
+      }
+
+      return age;
+    }
+    const dob = cy.get('[name="dob"]').type("1994-01-01");
+    const expectedAge = calculateAge(dob);
+
+    cy.contains("Age: 30").should("have.value", { expectedAge });
+    cy.get('[name="Age"]').should("have.text", expectedAge.toString());
   });
 });
