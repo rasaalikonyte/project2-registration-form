@@ -1,13 +1,13 @@
 // src/RegistrationForm.js
-import React, { useState } from 'react';
-import './RegistrationForm.css';
+import React, { useState } from "react";
+import "./RegistrationForm.css";
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    dob: ''
+    username: "",
+    email: "",
+    password: "",
+    dob: "",
   });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -17,7 +17,7 @@ const RegistrationForm = () => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -47,7 +47,10 @@ const RegistrationForm = () => {
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
       age--;
     }
     return age;
@@ -79,7 +82,7 @@ const RegistrationForm = () => {
         <div>
           <label>Email:</label>
           <input
-            type="email"
+            type="text"
             name="email"
             value={formData.email}
             onChange={handleChange}
@@ -111,10 +114,18 @@ const RegistrationForm = () => {
       {submitted && (
         <div className="submitted-info">
           <h3>Submitted Information:</h3>
-          <p><strong>Username:</strong> {formData.username}</p>
-          <p><strong>Email:</strong> {formData.email}</p>
-          <p><strong>Date of Birth:</strong> {formData.dob}</p>
-          <p><strong>Age:</strong> {age}</p>
+          <p>
+            <strong>Username:</strong> {formData.username}
+          </p>
+          <p>
+            <strong>Email:</strong> {formData.email}
+          </p>
+          <p>
+            <strong>Date of Birth:</strong> {formData.dob}
+          </p>
+          <p>
+            <strong>Age:</strong> {age}
+          </p>
         </div>
       )}
     </div>
