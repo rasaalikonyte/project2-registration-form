@@ -48,7 +48,6 @@ describe("Registration form validation", () => {
 
   it("should display validation error for short password", () => {
     cy.get('[name="password"]').type("123");
-
     cy.contains("button", /submit/i).click();
 
     cy.contains("Password must be at least 6 characters").should("be.visible");
