@@ -1,13 +1,15 @@
-name: E2E on Chrome
-
-on: [push]
+name: cypress.yml
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  install:
+  registration-form:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -22,13 +24,8 @@ jobs:
         env:
           CI: true
 
-      - name: Check Vite server logs
-        run: sleep 5 && curl -I http://localhost:5173
-
-      # - name: Wait for Vite to be ready
-      #   run: |
-      #     sleep 10
-      #     npx wait-on http://localhost:5173
+      - name: Wait for Vite to be ready
+        run: npx wait-on http://localhost:5173
 
       - name: Run Cypress tests
         run: npm run cypress:ci

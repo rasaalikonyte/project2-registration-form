@@ -9,7 +9,8 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "cypress open",
-    "cypress": "concurrently \"npm run dev\" \"npm run test\""
+    "cypress": "concurrently \"vite\" \"cypress open\"",
+    "cypress:ci": "cypress run --browser chrome"
   },
   "dependencies": {
     "concurrently": "^8.2.2",
