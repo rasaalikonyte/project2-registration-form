@@ -52,6 +52,10 @@ describe("Registration form validation", () => {
 
     cy.contains("Password must be at least 6 characters").should("be.visible");
   });
+
+  it("should have input of type date", () => {
+    cy.get('[name="dob"]').should("have.attr", "type", "date");
+  });
 });
 
 describe("Registration form functionality", () => {
