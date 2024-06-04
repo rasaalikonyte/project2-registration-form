@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -22,8 +22,13 @@ jobs:
         env:
           CI: true
 
-      - name: Wait for Vite to be ready
-        run: npx wait-on http://localhost:5173
+      - name: Check Vite server logs
+        run: sleep 5 && curl -I http://localhost:5173
+
+      # - name: Wait for Vite to be ready
+      #   run: |
+      #     sleep 10
+      #     npx wait-on http://localhost:5173
 
       - name: Run Cypress tests
         run: npm run cypress:ci
