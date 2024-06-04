@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  registration-form:
+  project2-registration-form:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
