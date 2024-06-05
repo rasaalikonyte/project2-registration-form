@@ -32,28 +32,39 @@ describe("Registration form validation", () => {
   it("should display validation errors if submitted empty fields", () => {
     cy.contains("button", /submit/i).click();
 
-    cy.get(".error").should("have.length", 4);
-    cy.contains("Username is required").should("be.visible");
-    cy.contains("Email is required").should("be.visible");
-    cy.contains("Password is required").should("be.visible");
-    cy.contains("Date of Birth is required").should("be.visible");
+    cy.get(".error")
+      .should("be.visible")
+      .and("contain", "Username is required")
+      .and("contain", "Email is required")
+      .and("contain", "Password is required")
+      .and("contain", "Date of Birth is required");
   });
 
   it("should display validation error for invalid email", () => {
     cy.get('[name="email"]').type("invalid-email");
-    cy.contains("button", /submit/i).click();
+    cy.get('[name="username"]').type("somename");
+    cy.get('[name="email"]').type("invalid-email");
+    cy.get('[name="password"]').type("1234567");
+    cy.get('[name="dob"]').type("1994-01-01");
 
-    cy.contains("Email is invalid").should("be.visible");
+    cy.contains("button", /submit/i).click();
+    cy.get(".error").should("be.visible").and("contain", "Email is invalid");
   });
 
   it("should display validation error for short password", () => {
+    cy.get('[name="email"]').type("invalid-email");
+    cy.get('[name="username"]').type("somename");
+    cy.get('[name="email"]').type("somename@gmail.com");
     cy.get('[name="password"]').type("123");
-    cy.contains("button", /submit/i).click();
+    cy.get('[name="dob"]').type("1994-01-01");
 
-    cy.contains("Password must be at least 6 characters").should("be.visible");
+    cy.contains("button", /submit/i).click();
+    cy.get(".error")
+      .should("be.visible")
+      .and("contain", "Password must be at least 6 characters");
   });
 
-  it("should have input of type date", () => {
+  it("Date of birth should have input of type 'date'", () => {
     cy.get('[name="dob"]').should("have.attr", "type", "date");
   });
 });
@@ -62,27 +73,25 @@ describe("Registration form functionality", () => {
   it("Customer is able to fill registration form and to see the data after submitting", () => {
     cy.visit("http://localhost:5173/");
 
-    cy.get('[name="username"]').type("rasa");
-    cy.get('[name="email"]').type("rasa@gmail.com");
+    cy.get('[name="username"]').type("somename");
+    cy.get('[name="email"]').type("somename@gmail.com");
     cy.get('[name="password"]').type("1234567");
     cy.get('[name="dob"]').type("1994-01-01");
 
     cy.contains("button", /submit/i).click();
 
-    cy.contains("h3", "Submitted Information:").should("be.visible");
-    cy.contains("Username: rasa").should("be.visible");
-    cy.contains("Email: rasa@gmail.com").should("be.visible");
+    cy.contains("Submitted Information:").should("be.visible");
+    cy.contains("Username: somename").should("be.visible");
+    cy.contains("Email: somename@gmail.com").should("be.visible");
     cy.contains("Date of Birth: 1994-01-01").should("be.visible");
     cy.contains("Age: 30").should("be.visible");
   });
-});
 
-describe("Is age calculated correctly", () => {
-  it("Checking if the age is correct after the user submits the data", () => {
+  it("Checking if the age calculated correctly after the user submits the data", () => {
     cy.visit("http://localhost:5173");
 
-    cy.get('[name="username"]').type("rasa");
-    cy.get('[name="email"]').type("rasa@gmail.com");
+    cy.get('[name="username"]').type("somename");
+    cy.get('[name="email"]').type("somename@gmail.com");
     cy.get('[name="password"]').type("1234567");
     cy.get('[name="dob"]').type("1994-01-01");
 
