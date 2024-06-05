@@ -2,26 +2,26 @@
 
 Welcome to the React Vite Registration Form Project! This project is focused on automation end-to-end testing with Cypress.
 
-## Table of Contents
+## 🗒️ Table of Contents
 
 - [Clone Repository](#clone-repository)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Application](#application)
 
-## Clone Repository
+## 👥 Clone Repository
 
 ```bash
 git clone https://github.com/rasaalikonyte/project2-registration-form.git
 ```
 
-## Installation
+## 📥 Installation
 
 ```bash
 npm install
 ```
 
-## Usage
+## ▶ Usage
 
 To run the development server and execute tests concurrently use:
 
@@ -29,6 +29,8 @@ To run the development server and execute tests concurrently use:
 npm run cypress
 ```
 
-## Application
+## 🔎 Application
 
 The application can be accessed at: [http://localhost:5173](http://localhost:5173)
+
+✅
