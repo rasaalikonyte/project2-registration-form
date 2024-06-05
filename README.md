@@ -1,6 +1,6 @@
 # Project Registration Form - Automation Testing with Cypress
 
-Welcome to the React Vite Registration Form Project. This project is focused on automation end-to-end testing with Cypress.
+Welcome to the React Vite Registration Form Project! This project is focused on automation end-to-end testing with Cypress.
 
 ## Table of Contents
 
@@ -23,7 +23,7 @@ npm install
 
 ## Usage
 
-To run the development server and execute tests, use this script
+To run the development server and execute tests concurrently use:
 
 ```bash
 npm run cypress
