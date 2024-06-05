@@ -28,7 +28,7 @@ describe("Registration form functionality", () => {
   let correctUsername = "somename";
   let correctEmail = "somename@gmail.com";
   let correctPassword = "1234567";
-  let correctDob = "1994-01-01";
+  let correctBirthDate = "1994-01-01";
   let expectedAge = "30";
 
   it("Customer is able to fill registration form and to see the data after submitting", () => {
@@ -36,7 +36,7 @@ describe("Registration form functionality", () => {
       correctUsername,
       correctEmail,
       correctPassword,
-      correctDob
+      correctBirthDate
     );
 
     cy.contains("Submitted Information:").should("be.visible");
@@ -51,7 +51,7 @@ describe("Registration form functionality", () => {
       correctUsername,
       correctEmail,
       correctPassword,
-      correctDob
+      correctBirthDate
     );
 
     cy.get('[data-cy="age"]').contains(`${expectedAge}`);
@@ -62,7 +62,7 @@ describe("Registration form validation", () => {
   let correctUsername = "somename";
   let correctEmail = "somename@gmail.com";
   let correctPassword = "1234567";
-  let correctDob = "1994-01-01";
+  let correctBirthDate = "1994-01-01";
 
   it("should display validation errors if submitted empty fields", () => {
     cy.fillFormAndSubmit("", "", "", "");
@@ -80,13 +80,18 @@ describe("Registration form validation", () => {
       correctUsername,
       "invalid-email",
       correctPassword,
-      correctDob
+      correctBirthDate
     );
     cy.get(".error").should("be.visible").and("contain", "Email is invalid");
   });
 
   it("should display validation error for short password", () => {
-    cy.fillFormAndSubmit(correctUsername, correctEmail, "123", correctDob);
+    cy.fillFormAndSubmit(
+      correctUsername,
+      correctEmail,
+      "123",
+      correctBirthDate
+    );
 
     cy.get(".error")
       .should("be.visible")
@@ -98,7 +103,7 @@ describe("Registration form validation", () => {
       correctUsername,
       correctEmail,
       correctPassword,
-      correctDob
+      correctBirthDate
     );
     cy.get('[name="dob"]').should("have.attr", "type", "date");
   });
