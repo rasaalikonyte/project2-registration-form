@@ -1,4 +1,4 @@
-# 🏁 Project Registration Form - Automation Testing with Cypress
+# 🎯 Project Registration Form - Automation Testing with Cypress
 
 Welcome to the React Vite Registration Form Project! This project is focused on automation end-to-end testing with Cypress.
 
@@ -33,4 +33,4 @@ npm run cypress
 
 The application can be accessed at: [http://localhost:5173](http://localhost:5173)
 
-✅
+![alt text](image.png)
