@@ -24,13 +24,48 @@ describe("Registration form visability", () => {
   });
 });
 
-describe("Registration form validation", () => {
-  beforeEach(() => {
-    cy.visit("http://localhost:5173");
+describe("Registration form functionality", () => {
+  let correctUsername = "somename";
+  let correctEmail = "somename@gmail.com";
+  let correctPassword = "1234567";
+  let correctDob = "1994-01-01";
+  let expectedAge = "30";
+
+  it("Customer is able to fill registration form and to see the data after submitting", () => {
+    cy.fillFormAndSubmit(
+      correctUsername,
+      correctEmail,
+      correctPassword,
+      correctDob
+    );
+
+    cy.contains("Submitted Information:").should("be.visible");
+    cy.contains("Username: somename").should("be.visible");
+    cy.contains("Email: somename@gmail.com").should("be.visible");
+    cy.contains("Date of Birth: 1994-01-01").should("be.visible");
+    cy.contains("Age: 30").should("be.visible");
   });
 
+  it("Checking if the age calculated correctly after the user submits the data", () => {
+    cy.fillFormAndSubmit(
+      correctUsername,
+      correctEmail,
+      correctPassword,
+      correctDob
+    );
+
+    cy.get('[data-cy="age"]').contains(`${expectedAge}`);
+  });
+});
+
+describe("Registration form validation", () => {
+  let correctUsername = "somename";
+  let correctEmail = "somename@gmail.com";
+  let correctPassword = "1234567";
+  let correctDob = "1994-01-01";
+
   it("should display validation errors if submitted empty fields", () => {
-    cy.contains("button", /submit/i).click();
+    cy.fillFormAndSubmit("", "", "", "");
 
     cy.get(".error")
       .should("be.visible")
@@ -41,62 +76,30 @@ describe("Registration form validation", () => {
   });
 
   it("should display validation error for invalid email", () => {
-    cy.get('[name="email"]').type("invalid-email");
-    cy.get('[name="username"]').type("somename");
-    cy.get('[name="email"]').type("invalid-email");
-    cy.get('[name="password"]').type("1234567");
-    cy.get('[name="dob"]').type("1994-01-01");
-
-    cy.contains("button", /submit/i).click();
+    cy.fillFormAndSubmit(
+      correctUsername,
+      "invalid-email",
+      correctPassword,
+      correctDob
+    );
     cy.get(".error").should("be.visible").and("contain", "Email is invalid");
   });
 
   it("should display validation error for short password", () => {
-    cy.get('[name="email"]').type("invalid-email");
-    cy.get('[name="username"]').type("somename");
-    cy.get('[name="email"]').type("somename@gmail.com");
-    cy.get('[name="password"]').type("123");
-    cy.get('[name="dob"]').type("1994-01-01");
+    cy.fillFormAndSubmit(correctUsername, correctEmail, "123", correctDob);
 
-    cy.contains("button", /submit/i).click();
     cy.get(".error")
       .should("be.visible")
       .and("contain", "Password must be at least 6 characters");
   });
 
-  it("Date of birth should have input of type 'date'", () => {
+  it("should inspect if date of birth should have input of type 'date'", () => {
+    cy.fillFormAndSubmit(
+      correctUsername,
+      correctEmail,
+      correctPassword,
+      correctDob
+    );
     cy.get('[name="dob"]').should("have.attr", "type", "date");
-  });
-});
-
-describe("Registration form functionality", () => {
-  it("Customer is able to fill registration form and to see the data after submitting", () => {
-    cy.visit("http://localhost:5173/");
-
-    cy.get('[name="username"]').type("somename");
-    cy.get('[name="email"]').type("somename@gmail.com");
-    cy.get('[name="password"]').type("1234567");
-    cy.get('[name="dob"]').type("1994-01-01");
-
-    cy.contains("button", /submit/i).click();
-
-    cy.contains("Submitted Information:").should("be.visible");
-    cy.contains("Username: somename").should("be.visible");
-    cy.contains("Email: somename@gmail.com").should("be.visible");
-    cy.contains("Date of Birth: 1994-01-01").should("be.visible");
-    cy.contains("Age: 30").should("be.visible");
-  });
-
-  it("Checking if the age calculated correctly after the user submits the data", () => {
-    cy.visit("http://localhost:5173");
-
-    cy.get('[name="username"]').type("somename");
-    cy.get('[name="email"]').type("somename@gmail.com");
-    cy.get('[name="password"]').type("1234567");
-    cy.get('[name="dob"]').type("1994-01-01");
-
-    cy.contains("button", /submit/i).click();
-
-    cy.get('[data-cy="age"]').should("have.text", 30);
   });
 });
