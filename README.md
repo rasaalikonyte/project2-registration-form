@@ -1,12 +1,19 @@
 # Project Registration Form - Automation Testing with Cypress
 
-Welcome to the Project Registration Form repository. This project is focused on automation end-to-ens testing using Cypressn.
+Welcome to the React Vite Registration Form Project. This project is focused on automation end-to-end testing with Cypress.
 
 ## Table of Contents
 
+- [Clone Repository](#clone-repository)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Application](#application)
+
+## Clone Repository
+
+```bash
+git clone https://github.com/rasaalikonyte/project2-registration-form.git
+```
 
 ## Installation
 
@@ -16,18 +23,11 @@ npm install
 
 ## Usage
 
-To run the development server and execute tests, use the following commands:
+To run the development server and execute tests, use this script
 
-1. **Start the Development Server**
-
-   ```bash
-   npm run start
-   ```
-
-2. **Run Tests**
-   ```bash
-   npm run test
-   ```
+```bash
+npm run cypress
+```
 
 ## Application
 
