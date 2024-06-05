@@ -33,4 +33,4 @@ npm run cypress
 
 The application can be accessed at: [http://localhost:5173](http://localhost:5173)
 
-![alt text](image.png)
+🏁
